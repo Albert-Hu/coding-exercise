@@ -10,7 +10,7 @@ struct stack_data {
 
 struct stack {
   size_t capacity; /**< the capacity of the stack. */
-  size_t amount; /**< amount of the data in the stack.  */
+  size_t number; /**< number of the data in the stack.  */
   stack_data* data; /**< the data array. */
 };
 
@@ -49,7 +49,7 @@ stack* stack_new(size_t capacity) {
   stack* s = (stack*) malloc(sizeof(stack));
 
   s->capacity = capacity;
-  s->amount = 0;
+  s->number = 0;
   s->data = NULL;
 
   return s;
@@ -63,7 +63,7 @@ stack* stack_new(size_t capacity) {
  * @return false The stack is not empty.
  */
 bool stack_is_empty(stack* s) {
-  return s->amount == 0;
+  return s->number == 0;
 }
 
 /**
@@ -74,7 +74,7 @@ bool stack_is_empty(stack* s) {
  * @return false The stack is not full.
  */
 bool stack_is_full(stack* s) {
-  return s->amount == s->capacity;
+  return s->number == s->capacity;
 }
 
 /**
@@ -89,7 +89,7 @@ void stack_push(stack* s, int data) {
   if (!stack_is_full(s)) {
     new_data = stack_data_new(data, s->data);
     s->data = new_data;
-    s->amount++;
+    s->number++;
   }
 }
 
@@ -103,7 +103,7 @@ void stack_pop(stack* s) {
 
   if (!stack_is_empty(s)) {
     s->data = current->previous;
-    s->amount--;
+    s->number--;
     stack_data_delete(current);
   }
 }

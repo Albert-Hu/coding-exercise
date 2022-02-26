@@ -12,7 +12,7 @@ public:
    *
    * @param capacity The capacity of the stack.
    */
-  Stack(size_t capacity) : m_capacity(capacity) , m_amount(0) {
+  Stack(size_t capacity) : m_capacity(capacity) , m_number(0) {
     m_data = (int*) malloc(sizeof(int) * capacity);
   };
 
@@ -23,7 +23,7 @@ public:
    * @return false The stack is not empty.
    */
   bool isEmpty() {
-    return m_amount == 0;
+    return m_number == 0;
   }
 
   /**
@@ -33,7 +33,7 @@ public:
    * @return false The stack is not full.
    */
   bool isFull() {
-    return m_amount == m_capacity;
+    return m_number == m_capacity;
   }
 
   /**
@@ -43,8 +43,8 @@ public:
    */
   void push(int data) {
     if (!isFull()) {
-      m_data[m_amount] = data;
-      m_amount++;
+      m_data[m_number] = data;
+      m_number++;
     }
   }
 
@@ -54,7 +54,7 @@ public:
    */
   void pop() {
     if (!isEmpty()) {
-      m_amount--;
+      m_number--;
     }
   }
 
@@ -67,7 +67,7 @@ public:
     int data = 0;
 
     if (!isEmpty()) {
-      data = m_data[m_amount - 1];
+      data = m_data[m_number - 1];
     }
 
     return data;
@@ -83,7 +83,7 @@ public:
 
 private:
   size_t m_capacity; /**< the capacity of the stack. */
-  size_t m_amount; /**< amount of the data in the stack.  */
+  size_t m_number; /**< number of the data in the stack.  */
   int* m_data; /**< the data array. */
 };
 
