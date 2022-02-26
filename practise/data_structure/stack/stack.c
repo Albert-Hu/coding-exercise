@@ -6,10 +6,10 @@ struct stack {
 };
 
 /**
- * @brief Create a stack object.
+ * @brief Construct a new stack object.
  *
- * @param size The capacity of the stack.
- * @return stack* The stack object.
+ * @param capacity The capacity of the stack.
+ * @return stack* A pointer to a stack object.
  */
 stack* stack_new(size_t capacity) {
   stack* s = NULL;

@@ -1,11 +1,43 @@
 #include <stdlib.h>
 #include "stack.h"
 
+typedef struct stack_data stack_data;
+
+struct stack_data {
+  stack_data* previous;
+  int value;
+};
+
 struct stack {
   size_t capacity; /**< the capacity of the stack. */
   size_t amount; /**< amount of the data in the stack.  */
-  int data[0]; /**< the data array. */
+  stack_data* data; /**< the data array. */
 };
+
+/**
+ * @brief Construct a new stack data object.
+ *
+ * @param value The value of the data.
+ * @param previous A pointer to previous object.
+ * @return stack_data* A pointer to a stack data object.
+ */
+static stack_data* stack_data_new(int value, stack_data* previous) {
+  stack_data* data = (stack_data*) malloc(sizeof(stack_data));
+
+  data->previous = previous;
+  data->value = value;
+
+  return data;
+}
+
+/**
+ * @brief Delete the stack data object.
+ *
+ * @param data
+ */
+static void stack_data_delete(stack_data* data) {
+  free(data);
+}
 
 /**
  * @brief Construct a new stack object.
@@ -14,10 +46,11 @@ struct stack {
  * @return stack* A pointer to a stack object.
  */
 stack* stack_new(size_t capacity) {
-  stack* s = (stack*) malloc(sizeof(stack) + sizeof(int) * capacity);
+  stack* s = (stack*) malloc(sizeof(stack));
 
   s->capacity = capacity;
   s->amount = 0;
+  s->data = NULL;
 
   return s;
 }
@@ -51,8 +84,11 @@ bool stack_is_full(stack* s) {
  * @param data The data which will be pushed onto the stack.
  */
 void stack_push(stack* s, int data) {
+  stack_data* new_data;
+
   if (!stack_is_full(s)) {
-    s->data[s->amount] = data;
+    new_data = stack_data_new(data, s->data);
+    s->data = new_data;
     s->amount++;
   }
 }
@@ -63,8 +99,12 @@ void stack_push(stack* s, int data) {
  * @param s The stack object.
  */
 void stack_pop(stack* s) {
+  stack_data* current = s->data;
+
   if (!stack_is_empty(s)) {
+    s->data = current->previous;
     s->amount--;
+    stack_data_delete(current);
   }
 }
 
@@ -78,7 +118,7 @@ int stack_top(stack* s) {
   int data = 0;
 
   if (!stack_is_empty(s)) {
-    data = s->data[s->amount - 1];
+    data = s->data->value;
   }
 
   return data;
@@ -90,5 +130,13 @@ int stack_top(stack* s) {
  * @param s The stack object.
  */
 void stack_delete(stack* s) {
+  stack_data* current;
+
+  while (s->data) {
+    current = s->data;
+    s->data = current->previous;
+    stack_data_delete(current);
+  }
+
   free(s);
 }
