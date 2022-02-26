@@ -14,4 +14,4 @@ C++
 - wrapper a class-based approach, stack_cpp.cpp
 - wrapper a STL-based approach, stack_cppstl.cpp
 
-[Practise youself](../../../learn/data_structure/stack/).
+[Practise](../../../practise/data_structure/stack/).
