@@ -4,8 +4,8 @@
 typedef struct stack_data stack_data;
 
 struct stack_data {
-  stack_data* previous;
-  int value;
+  stack_data* previous; /**< the pointer to previous object. */
+  int value; /**< the value of the data. */
 };
 
 struct stack {
